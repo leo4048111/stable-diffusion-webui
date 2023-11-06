@@ -3,6 +3,7 @@
 if not defined PYTHON (set PYTHON=python)
 if not defined VENV_DIR (set "VENV_DIR=%~dp0%venv")
 
+set PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:32
 set SD_WEBUI_RESTART=tmp/restart
 set ERROR_REPORTING=FALSE
 
@@ -50,7 +51,7 @@ set ACCELERATE="%VENV_DIR%\Scripts\accelerate.exe"
 if EXIST %ACCELERATE% goto :accelerate_launch
 
 :launch
-%PYTHON% launch.py %*
+%PYTHON% launch.py --no-gradio-queue --lowvram %*
 if EXIST tmp/restart goto :skip_venv
 pause
 exit /b
